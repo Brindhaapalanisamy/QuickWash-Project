@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Quick Wash - Login</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body.modal-open { overflow: hidden; }
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/carousel-1.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        .login-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            max-width: 420px;
+            width: 100%;
+        }
+        .login-header h2 {
+            position: relative;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .login-header h2:before {
+            content: '';
+            position: absolute;
+            height: 4px;
+            width: 50px;
+            left: 0;
+            bottom: -10px;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            border-radius: 2px;
+        }
+        .form-control-login {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            height: 55px;
+        }
+        .form-control-login:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+            transform: translateY(-2px);
+            background: #fff;
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 8px;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            height: 55px;
+            transition: all 0.3s ease;
+        }
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,123,255,0.4);
+            background: linear-gradient(135deg, #0056b3, #004085);
+        }
+        .social-login {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .social-btn i {
+            font-size: 18px;
+            margin-right: 12px;
+            width: 25px;
+        }
+        .btn-twitter {
+            background: #00acee;
+            color: white;
+            border-color: #00acee;
+        }
+        .btn-twitter:hover {
+            background: #1abeff;
+            border-color: #1abeff;
+            transform: translateY(-2px);
+        }
+        .btn-facebook {
+            background: #3b5998;
+            color: white;
+            border-color: #3b5998;
+        }
+        .btn-facebook:hover {
+            background: #476bb8;
+            border-color: #476bb8;
+            transform: translateY(-2px);
+        }
+        .success-icon { font-size: 4rem; color: #28a745; margin-bottom: 1rem; }
+        .divider {
+            position: relative;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #dee2e6;
+        }
+        .divider span {
+            background: white;
+            padding: 0 20px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 20px;
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-12">
+                    <div class="logo">
+                        <a href="index.html"><h1>Quick<span>Wash</span></h1></a>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7 d-none d-lg-block">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="top-bar-item">
+                                <div class="top-bar-icon"><i class="far fa-clock"></i></div>
+                                <div class="top-bar-text">
+                                    <h3>Opening Hour</h3>
+                                    <p>Mon - Fri, 8:00 - 9:00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="top-bar-item">
+                                <div class="top-bar-icon"><i class="fa fa-phone-alt"></i></div>
+                                <div class="top-bar-text">
+                                    <h3>Call Us</h3>
+                                    <p>+91 9872680281</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="top-bar-item">
+                                <div class="top-bar-icon"><i class="far fa-envelope"></i></div>
+                                <div class="top-bar-text">
+                                    <h3>Email Us</h3>
+                                    <p>quickcarwashcen@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-bar">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+                <a href="index.html" class="navbar-brand">MENU</a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto">
+                        <a href="index.html" class="nav-item nav-link">Home</a>
+                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="service.html" class="nav-item nav-link">Service</a>
+                        <a href="price.html" class="nav-item nav-link">Price</a>
+                        <a href="location.html" class="nav-item nav-link">Washing Points</a>
+                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="rem.html" class="nav-item nav-link">Reminder</a>
+                    </div>
+                    <div class="ml-auto">
+                        <a class="btn btn-custom mr-2" href="reg.html">Register</a>
+                        <span> <a class="btn btn-custom" href="app.html">Get Appointment</a></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1>Member Login</h1>
+                    <p class="lead">Welcome back to Quick Wash. Please sign in to your account.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-5">
+                <div class="login-container">
+                    <div class="login-header text-center mb-4">
+                        <h2>Sign In</h2>
+                        <p class="text-muted">Access your Quick Wash account</p>
+                    </div>
+
+                    <form id="loginForm">
+                        <div class="form-group mb-4">
+                            <label for="email"><i class="fa fa-envelope mr-2"></i>Email Address</label>
+                            <input type="email" class="form-control form-control-login" id="email" 
+                                   placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="password"><i class="fa fa-lock mr-2"></i>Password</label>
+                            <input type="password" class="form-control form-control-login" id="password" 
+                                   placeholder="Enter your password" required>
+                        </div>
+                        
+                        <div class="form-group mb-4">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="remember">
+                                <label class="custom-control-label" for="remember">
+                                    Remember me
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn btn-login">
+                                <i class="fa fa-sign-in-alt mr-2"></i>Continue
+                            </button>
+                        </div>
+
+                        <div class="divider">
+                            <span>or continue with</span>
+                        </div>
+
+                        <div class="social-login">
+                            <a href="#" class="social-btn btn-twitter">
+                                <i class="fab fa-twitter"></i>Twitter
+                            </a>
+                            <a href="#" class="social-btn btn-facebook">
+                                <i class="fab fa-facebook-f"></i>Facebook
+                            </a>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0">
+                                Don't have an account? 
+                                <a href="reg.html" class="text-primary font-weight-bold">Register here</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content quickwash-modal">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title"><i class="fas fa-check-circle mr-2"></i>Welcome Back!</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <i class="fas fa-user-check success-icon"></i>
+                    <h4 class="mb-3">Login Successful!</h4>
+                    <p class="lead mb-0">You have been successfully signed in to your Quick Wash account.</p>
+                    <div class="mt-3">
+                        <strong id="welcomeUser"></strong>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-custom modal-btn" onclick="redirectToHome()">
+                        Go to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-contact">
+                        <h2>Get In Touch</h2>
+                        <p><i class="fa fa-map-marker-alt"></i>RS PURAM,COIMBATORE,TAMIL NADU</p>
+                        <p><i class="fa fa-phone-alt"></i>+012 977 8264</p>
+                        <p><i class="fa fa-envelope"></i>quickcarwashcen@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Form submission with professional modal
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                const email = $('#email').val();
+                const welcomeMsg = email ? `Welcome back, ${email.split('@')[0]}!` : 'Welcome back!';
+                
+                $('#welcomeUser').text(welcomeMsg);
+                
+                // Save login state
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                // Show success modal
+                $('#successModal').modal('show');
+                $('body').addClass('modal-open');
+            });
+
+            // Auto-fill demo data (remove in production)
+            $('#email').val('demo@quickwash.com');
+            $('#password').val('password123');
+        });
+
+        function redirectToHome() {
+            $('#successModal').modal('hide');
+            $('body').removeClass('modal-open');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

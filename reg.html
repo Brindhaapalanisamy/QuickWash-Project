@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Quick Wash - Register</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body.modal-open { overflow: hidden; }
+        .page-hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6)), url('img/carousel-1.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .register-container {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(15px);
+            padding: 3.5rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.4);
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .register-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,123,255,0.05) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Progress Bar - YOUR ORIGINAL CSS */
+        .progress-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .progress-header { text-align: center; margin-bottom: 20px; }
+        .progress-counter {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #007bff, #28a745);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+        .progress-text {
+            color: #6c757d;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 15px;
+            height: 8px;
+        }
+        .progress-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+        .progress-step.active .step-circle {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border-color: #007bff;
+            box-shadow: 0 0 20px rgba(0,123,255,0.4);
+            transform: scale(1.1);
+        }
+        .progress-step.completed .step-circle {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border-color: #28a745;
+            box-shadow: 0 0 20px rgba(40,167,69,0.4);
+            transform: scale(1.1);
+        }
+        .step-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 4px solid #dee2e6;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            margin: 0 auto 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 3;
+            cursor: pointer;
+        }
+        .step-circle:hover { transform: scale(1.05); }
+        .step-icon {
+            font-size: 18px;
+            display: none;
+            animation: checkmark 0.3s ease;
+        }
+        @keyframes checkmark {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(90deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        .progress-step.completed .step-icon { display: block; }
+        .progress-step.completed .step-circle span { display: none; }
+        .step-label {
+            font-size: 13px;
+            color: #6c757d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .progress-step.active .step-label {
+            color: #007bff;
+            font-weight: 700;
+        }
+        .progress-fill {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            right: 22px;
+            height: 6px;
+            background: rgba(233,236,239,0.6);
+            border-radius: 3px;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .progress-fill-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #28a745, #ffc107);
+            background-size: 200% 100%;
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: progressGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes progressGlow {
+            0% { box-shadow: 0 0 5px rgba(0,123,255,0.3); }
+            100% { box-shadow: 0 0 15px rgba(255,193,7,0.5); }
+        }
+
+        /* Form - YOUR ORIGINAL CSS */
+        .form-step { display: none; }
+        .form-step.active {
+            display: block;
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .form-control-reg {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 18px 22px;
+            font-size: 16px;
+            height: 60px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 2rem;
+            background: #fafbfc;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-control-reg:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0,123,255,0.15), 0 8px 25px rgba(0,123,255,0.1);
+            transform: translateY(-3px) scale(1.02);
+            background: white;
+        }
+        .form-control-reg::placeholder { color: #adb5bd; font-weight: 500; }
+        .form-control-reg.is-valid { border-color: #28a745; background: #f8fff9; }
+        .form-control-reg.is-invalid { border-color: #dc3545; background: #fff5f5; }
+
+        /* Buttons - YOUR ORIGINAL CSS */
+        .btn-register-nav {
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            border: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 55px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-register-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        .btn-register-nav:hover::before { left: 100%; }
+        .btn-prev {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+        .btn-prev:hover {
+            background: linear-gradient(135deg, #5a6268, #3d4045);
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(108,117,125,0.4);
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+        .btn-next:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0,123,255,0.5);
+        }
+        .btn-register-submit {
+            background: linear-gradient(135deg, #28a745, #20c997, #17a2b8);
+            background-size: 200% 200%;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 22px;
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-register-submit:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(40,167,69,0.5);
+            background-position: 100% 0;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 20px 45px rgba(40,167,69,0.5); }
+            50% { box-shadow: 0 25px 55px rgba(40,167,69,0.7); }
+            100% { box-shadow: 0 20px 45px rgba(40,167,69,0.5); }
+        }
+
+        @media (max-width: 576px) {
+            .register-container { margin: 20px; padding: 2rem 1.5rem; }
+            .progress-step { flex: none; width: 70px; }
+            .step-label { font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar & Navigation - ADD YOUR EXISTING CODE HERE -->
+    <div class="top-bar"><!-- Your existing top bar --></div>
+    <nav class="navbar"><!-- Your existing navbar --></nav>
+    
+    <!-- Hero Section -->
+    <div class="page-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1 class="display-4 font-weight-bold mb-4">Create Account</h1>
+                    <p class="lead mb-0">Join Quick Wash family in 4 simple steps</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ FIXED REGISTRATION FORM -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="register-container">
+                    <div class="text-center mb-5">
+                        <h2 class="display-4 font-weight-bold mb-3" style="background: linear-gradient(135deg, #007bff, #28a745); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Sign Up</h2>
+                        <p class="lead text-muted">Complete the steps below to create your account</p>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress-container">
+                        <div class="progress-header">
+                            <div class="progress-counter" id="mainCounter">1</div>
+                            <div class="progress-text" id="progressText">of 4 steps completed</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-step active" data-step="1">
+                                <div class="step-circle">
+                                    <span>1</span>
+                                    <i class="step-icon fas fa-check"></i>
+                                </div>
+                                <div class="step-label">Basic Info</div>
+                            </div>
+                            <div class="progress-step" data-step="2">
+                                <div class="step-circle">
+                                    <span>2</span>
+                                    <i class="step-icon fas fa-check"></i>
+                                </div>
+                                <div class="step-label">Contact Details</div>
+                            </div>
+                            <div class="progress-step" data-step="3">
+                                <div class="step-circle">
+                                    <span>3</span>
+                                    <i class="step-icon fas fa-check"></i>
+                                </div>
+                                <div class="step-label">Personal Info</div>
+                            </div>
+                            <div class="progress-step" data-step="4">
+                                <div class="step-circle">
+                                    <span>4</span>
+                                    <i class="step-icon fas fa-check"></i>
+                                </div>
+                                <div class="step-label">Login Setup</div>
+                            </div>
+                        </div>
+                        <div class="progress-fill">
+                            <div class="progress-fill-bar" id="progressFill"></div>
+                        </div>
+                    </div>
+
+                    <!-- ✅ FIXED FORM - novalidate + name attributes -->
+                    <form id="registerForm" novalidate>
+                        <!-- Step 1 -->
+                        <div class="form-step active" data-step="1">
+                            <div class="form-group">
+                                <label class="h6 font-weight-bold mb-3">
+                                    <i class="fa fa-user text-primary mr-2"></i>First Name
+                                </label>
+                                <input type="text" class="form-control form-control-reg" 
+                                       id="firstName" name="firstName" 
+                                       placeholder="Enter your first name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="h6 font-weight-bold mb-3">
+                                    <i class="fa fa-user text-primary mr-2"></i>Last Name
+                                </label>
+                                <input type="text" class="form-control form-control-reg" 
+                                       id="lastName" name="lastName" 
+                                       placeholder="Enter your last name" required>
+                            </div>
+                            <div class="text-right">
+                                <button type="button" class="btn btn-register-nav btn-next next-step" data-next="2">
+                                    Continue <i class="fa fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="form-step" data-step="2">
+                            <div class="form-group">
+                                <label class="h6 font-weight-bold mb-3">
+                                    <i class="fa fa-envelope text-success mr-2"></i>Email Address
+                                </label>
+                                <input type="email" class="form-control form-control-reg" 
+                                       id="email" name="email" 
+                                       placeholder="your@email.com" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="h6 font-weight-bold mb-3">
+                                            <i class="fa fa-phone text-info mr-2"></i>Phone
+                                        </label>
+                                        <input type="tel" class="form-control form-control-reg" 
+                                               id="phone" name="phone" 
+                                               placeholder="+91 98765 43210" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="h6 font-weight-bold mb-3">
+                                            <i class="fa fa-map-marker-alt text-warning mr-2"></i>City
+                                        </label>
+                                        <input type="text" class="form-control form-control-reg" 
+                                               id="city" name="city" 
+                                               placeholder="Coimbatore" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="button" class="btn btn-register-nav btn-prev prev-step mr-3" data-prev="1">
+                                    <i class="fa fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <button type="button" class="btn btn-register-nav btn-next next-step" data-next="3">
+                                    Continue <i class="fa fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="form-step" data-step="3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="h6 font-weight-bold mb-3">
+                                            <i class="fa fa-calendar text-danger mr-2"></i>Date of Birth
+                                        </label>
+                                        <input type="date" class="form-control form-control-reg" 
+                                               id="dob" name="dob" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="h6 font-weight-bold mb-3">
+                                            <i class="fa fa-venus-mars text-purple mr-2"></i>Gender
+                                        </label>
+                                        <select class="form-control form-control-reg" id="gender" name="gender" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="button" class="btn btn-register-nav btn-prev prev-step mr-3" data-prev="2">
+                                    <i class="fa fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <button type="button" class="btn btn-register-nav btn-next next-step" data-next="4">
+                                    Continue <i class="fa fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="form-step" data-step="4">
+                            <div class="form-group">
+                                <label class="h6 font-weight-bold mb-3">
+                                    <i class="fa fa-user-circle text-primary mr-2"></i>Username
+                                </label>
+                                <input type="text" class="form-control form-control-reg" 
+                                       id="username" name="username" 
+                                       placeholder="yourusername" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="h6 font-weight-bold mb-3">
+                                            <i class="fa fa-lock text-success mr-2"></i>Password
+                                        </label>
+                                        <input type="password" class="form-control form-control-reg" 
+                                               id="password" name="password" 
+                                               placeholder="••••••••" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="h6 font-weight-bold mb-3">
+                                            <i class="fa fa-lock text-info mr-2"></i>Confirm Password
+                                        </label>
+                                        <input type="password" class="form-control form-control-reg" 
+                                               id="confirmPassword" name="confirmPassword" 
+                                               placeholder="••••••••" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="button" class="btn btn-register-nav btn-prev prev-step mr-3" data-prev="3">
+                                    <i class="fa fa-arrow-left mr-2"></i> Back
+                                </button>
+                                <!-- ✅ FIXED LAUNCH BUTTON -->
+                                <button type="submit" class="btn btn-register-submit">
+                                    <i class="fa fa-rocket mr-2"></i> Launch Account
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ FIXED JAVASCRIPT - DIRECT REDIRECT -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        let currentStep = 1;
+        const totalSteps = 4;
+        let userData = {};
+
+        // Initialize DOB constraint
+        const maxDob = new Date();
+        maxDob.setFullYear(maxDob.getFullYear() - 18);
+        $('#dob').attr('max', maxDob.toISOString().split('T')[0]);
+
+        // ✅ CRITICAL FIX: Toggle required attributes
+        function toggleRequiredFields(step) {
+            $('[required]').attr('required', false);
+            $(`.form-step[data-step="${step}"] [required]`).attr('required', true);
+        }
+        toggleRequiredFields(1);
+
+        // Next step
+        $('.next-step').click(function() {
+            if (validateCurrentStep()) {
+                saveCurrentStep();
+                const nextStep = parseInt($(this).data('next'));
+                goToStep(nextStep);
+            }
+        });
+
+        // Previous step
+        $('.prev-step').click(function() {
+            const prevStep = parseInt($(this).data('prev'));
+            goToStep(prevStep);
+        });
+
+        function goToStep(step) {
+            $('.form-step.active').removeClass('active');
+            $(`.form-step[data-step="${step}"]`).addClass('active');
+            
+            // Update progress
+            $('.progress-step').removeClass('active completed');
+            for(let i = 1; i <= step; i++) {
+                $(`.progress-step[data-step="${i}"]`).addClass(i < step ? 'completed' : 'active');
+            }
+            
+            currentStep = step;
+            const progress = ((step - 1) / (totalSteps - 1)) * 100;
+            $('#progressFill').css('width', progress + '%');
+            $('#mainCounter').text(step);
+            $('#progressText').text(`${step} of ${totalSteps} steps completed`);
+            
+            toggleRequiredFields(step);
+        }
+
+        function validateCurrentStep() {
+            let isValid = true;
+            $(`.form-step[data-step="${currentStep}"] [required]`).each(function() {
+                if (!$(this).val().trim()) {
+                    $(this).addClass('is-invalid');
+                    isValid = false;
+                } else {
+                    $(this).removeClass('is-invalid').addClass('is-valid');
+                }
+            });
+            return isValid;
+        }
+
+        function saveCurrentStep() {
+            $(`.form-step[data-step="${currentStep}"] [name]`).each(function() {
+                userData[$(this).attr('name')] = $(this).val();
+            });
+        }
+
+        // ✅ FIXED LAUNCH ACCOUNT BUTTON - DIRECT REDIRECT
+        $('#registerForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            saveCurrentStep();
+            
+            if (validateCurrentStep() && 
+                $('#password').val() === $('#confirmPassword').val() && 
+                $('#password').val().length >= 6) {
+                
+                // Save data
+                localStorage.setItem('quickWashUser', JSON.stringify(userData));
+                localStorage.setItem('userLoggedIn', 'true');
+                
+                // ✅ DIRECT REDIRECT - NO MODAL
+                window.location.href = 'index.html';
+                
+            } else {
+                alert('Please fill all fields correctly and ensure passwords match (minimum 6 characters)');
+            }
+        });
+
+        // Demo data
+        setTimeout(() => {
+            $('#firstName').val('John').addClass('is-valid');
+            $('#lastName').val('Doe').addClass('is-valid');
+            $('#email').val('john@quickwash.com').addClass('is-valid');
+            $('#phone').val('+91 9872680281').addClass('is-valid');
+            $('#city').val('Coimbatore').addClass('is-valid');
+        }, 1000);
+    });
+    </script>
+</body>
+</html>

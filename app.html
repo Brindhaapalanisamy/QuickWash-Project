@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Quick Wash - Book Appointment</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body.modal-open { overflow: hidden; }
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('img/carousel-1.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            color: white;
+        }
+        .modal-content.quickwash-modal {
+            border-radius: 0;
+            border: none;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .immediate-booking-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: linear-gradient(135deg, #f71c1c, #9a1010);
+    color: white;
+    border: none;
+    width: 220px;
+    height: 48px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(244, 25, 58, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+}
+
+.immediate-booking-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(222, 99, 99, 0.6);
+    color: white;
+}
+        .btn-custom.modal-btn {
+            background: #c73838;
+            border: 2px solid #dd3838;
+            color: white;
+            padding: 12px 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .btn-custom.modal-btn:hover {
+            background: transparent;
+            color: #a81717;
+        }
+        .success-icon { font-size: 4rem; color: #28a745; margin-bottom: 1rem; }
+        .booking-details { background: #f8f9fa; padding: 1.5rem; border-radius: 5px; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-12">
+                    <div class="logo">
+                        <a href="index.html"><h1>Quick<span>Wash</span></h1></a>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7 d-none d-lg-block">
+                    <!-- Contact info same as index -->
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="top-bar-item">
+                                <div class="top-bar-icon"><i class="far fa-clock"></i></div>
+                                <div class="top-bar-text">
+                                    <h3>Opening Hour</h3>
+                                    <p>Mon - Fri, 8:00 - 9:00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="top-bar-item">
+                                <div class="top-bar-icon"><i class="fa fa-phone-alt"></i></div>
+                                <div class="top-bar-text">
+                                    <h3>Call Us</h3>
+                                    <p>+91 9872680281</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="top-bar-item">
+                                <div class="top-bar-icon"><i class="far fa-envelope"></i></div>
+                                <div class="top-bar-text">
+                                    <h3>Email Us</h3>
+                                    <p>quickcarwashcen@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-bar">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+                <a href="index.html" class="navbar-brand">MENU</a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav mr-auto">
+                        <a href="index.html" class="nav-item nav-link">Home</a>
+                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="service.html" class="nav-item nav-link">Service</a>
+                        <a href="price.html" class="nav-item nav-link">Price</a>
+                        <a href="location.html" class="nav-item nav-link">Washing Points</a>
+                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="rem.html" class="nav-item nav-link">Reminder</a>
+                    </div>
+                    <div class="ml-auto">
+                        <a class="btn btn-custom" href="reg.html">Register</a>
+                        <a class="btn btn-custom" href="login.html">Login</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Page Hero -->
+    <div class="page-hero">
+        <div class="container">
+            <center>
+            <h1>Book Appointment</h1>
+            </center>
+        </div>
+    </div>
+
+    <!-- Appointment Form -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="section-header text-center">
+                    <p>Schedule Your Service</p>
+                    <h2>Book Your Car Wash</h2>
+                </div>
+                <a href="points.html" class="immediate-booking-btn" title="Immediate Booking">
+    Immediate Booking click here
+</a>
+                <form id="appointmentForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" placeholder="Full Name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="date" class="form-control" id="date" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="time" class="form-control" id="time" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-custom">Book Appointment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content quickwash-modal">
+                <div class="modal-header">
+                    <h5 class="modal-title">Appointment Confirmed</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <h3 class="mb-4">Successfully Booked!</h3>
+                        <p class="lead mb-4">Your appointment has been confirmed and added to our schedule.</p>
+                        
+                        <div id="bookingDetails" class="booking-details">
+                            <h4>Booking Details</h4>
+                            <div class="row">
+                                <div class="col-6"><strong>Name:</strong></div>
+                                <div class="col-6" id="confirmName"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><strong>Email:</strong></div>
+                                <div class="col-6" id="confirmEmail"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><strong>Date:</strong></div>
+                                <div class="col-6" id="confirmDate"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><strong>Time:</strong></div>
+                                <div class="col-6" id="confirmTime"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-custom modal-btn" onclick="redirectToHome()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (same as index) -->
+    <div class="footer">
+        <!-- Copy footer from your index.html -->
+        <div class="container">...</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#date').attr('min', new Date().toISOString().split('T')[0]);
+            
+            $('#appointmentForm').on('submit', function(e) {
+                e.preventDefault();
+                const name = $('#name').val();
+                const email = $('#email').val();
+                const date = $('#date').val();
+                const time = $('#time').val();
+                
+                const formattedDate = new Date(date).toLocaleDateString('en-IN');
+                
+                $('#confirmName').text(name);
+                $('#confirmEmail').text(email);
+                $('#confirmDate').text(formattedDate);
+                $('#confirmTime').text(time);
+                
+                // Save to localStorage
+                const booking = {name, email, date, time, bookedAt: new Date().toISOString()};
+                let bookings = JSON.parse(localStorage.getItem('appointments') || '[]');
+                bookings.push(booking);
+                localStorage.setItem('appointments', JSON.stringify(bookings));
+                
+                $('#successModal').modal('show');
+                $('body').addClass('modal-open');
+            });
+        });
+
+        function redirectToHome() {
+            $('#successModal').modal('hide');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

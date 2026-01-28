@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickWash</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --primary-dark: #1d4ed8;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      --dark: #1f2937;
+      --dark-light: #374151;
+      --gray: #6b7280;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --shadow: 0 10px 40px rgba(0,0,0,0.1);
+      --shadow-lg: 0 25px 60px rgba(0,0,0,0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      line-height: 1.6;
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* Hero Background */
+    .hero-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(120,119,198,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,119,198,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120,219,255,0.3) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 0;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Main Content */
+    main {
+      min-height: 100vh;
+      padding: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .content-card {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--success-color));
+    }
+
+    .content-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 35px 80px rgba(0,0,0,0.2);
+    }
+
+    /* Sections */
+    section {
+      display: none;
+    }
+
+    .active-section {
+      display: block;
+      animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Typography */
+    h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--dark); }
+    h2 { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; color: var(--dark); }
+    h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--dark-light); }
+    h4 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+    .text-muted { color: var(--gray); }
+    .text-success { color: var(--success-color); }
+    .fw-bold { font-weight: 600; }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      color: var(--dark-light);
+      font-size: 0.95rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1.25rem 1.5rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.8);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+      transform: translateY(-1px);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 1.25rem 2rem;
+      border: none;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before { left: 100%; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      box-shadow: 0 10px 30px rgba(37,99,235,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(37,99,235,0.4);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success-color), #059669);
+      color: white;
+      box-shadow: 0 10px 30px rgba(16,185,129,0.3);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(16,185,129,0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, var(--danger-color), #dc2626);
+      color: white;
+      width: auto;
+      padding: 1rem 1.75rem;
+      box-shadow: 0 10px 30px rgba(239,68,68,0.3);
+    }
+
+    /* Chill Spots Grid */
+    .chill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .chill-spot {
+      background: rgba(255,255,255,0.9);
+      border-radius: 20px;
+      padding: 2rem;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chill-spot::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(37,99,235,0.05), rgba(16,185,129,0.05));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .chill-spot:hover::before,
+    .chill-spot.selected::before {
+      opacity: 1;
+    }
+
+    .chill-spot:hover,
+    .chill-spot.selected {
+      border-color: var(--primary-color);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .chill-spot-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Countdown */
+    .countdown-display {
+      text-align: center;
+      margin: 2.5rem 0;
+    }
+
+    .countdown-timer {
+      font-size: 3.5rem;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      background: linear-gradient(135deg, var(--success-color), #059669);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 1.5rem 0;
+      letter-spacing: 0.1em;
+    }
+
+    /* Status Icons */
+    .status-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-icon.success { color: var(--success-color); }
+    .status-icon.complete { color: var(--success-color); }
+
+    /* Service Info */
+    .service-info {
+      background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(34,197,94,0.1));
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 5px solid var(--success-color);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; gap: 1rem; }
+      .content-card { padding: 2rem 1.5rem; margin: 1rem; }
+      .countdown-timer { font-size: 2.5rem; }
+      .chill-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-bg"></div>
+  
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <i class="fas fa-tools"></i>
+          <span>QuickWash</span>
+        </a>
+        <div style="font-size: 0.9rem; color: var(--gray);">
+          <i class="fas fa-map-marker-alt"></i> Coimbatore Service Network
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Booking Section -->
+    <section id="booking-section" class="active-section">
+      <div class="content-card">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+          <i class="fas fa-calendar-check status-icon" style="color: var(--primary-color); font-size: 3rem;"></i>
+          <div>
+            <h1>Book Car Service Points </h1>
+            <p class="text-muted">Select your preferred service center and get instant confirmation</p>
+          </div>
+        </div>
+
+        <form class="booking-form">
+          <div class="form-group">
+            <label for="service-center">
+              <i class="fas fa-building"></i>
+              Service Center Location
+            </label>
+            <select id="service-center" class="form-control">
+              <option value="racecourse">🏎️ Race Course Service Center</option>
+              <option value="rspuram">🔧 RS Puram Premium Service</option>
+              <option value="gandhipuram">⚙️ Gandhipuram Express</option>
+              <option value="saravanampatti">🚗 Saravanampatti Tech Hub</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="car-model">
+              <i class="fas fa-car"></i>
+              Vehicle Details
+            </label>
+            <input type="text" id="car-model" class="form-control" placeholder="e.g., Hyundai Creta SX, Swift ZXI, Innova Crysta...">
+          </div>
+
+          <div class="form-group">
+            <label for="service-type">
+              <i class="fas fa-cogs"></i>
+              Service Type
+            </label>
+            <select id="service-type" class="form-control">
+              <option value="regular">Regular Maintenance (₹999)</option>
+              <option value="premium">Premium Service (₹1999)</option>
+              <option value="ac">AC Service (₹1499)</option>
+              <option value="engine">Engine Tune-up (₹2499)</option>
+            </select>
+          </div>
+
+          <button type="button" id="book-button" class="btn btn-primary">
+            <i class="fas fa-rocket"></i>
+            Book Service Now
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Confirmation Section -->
+    <section id="confirmation-section">
+      <div class="content-card">
+        <div class="status-icon success">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h1>Service Booked Successfully!</h1>
+        <p class="text-muted mb-4">Your booking has been confirmed with our certified technicians</p>
+        
+        <div class="service-info">
+          <div id="confirmation-details"></div>
+        </div>
+        
+        <div style="text-align: center; margin: 2rem 0;">
+          <div style="font-size: 1.25rem; font-weight: 600; color: var(--success-color); margin-bottom: 1rem;">
+            <i class="fas fa-clock"></i> Estimated Completion: <span id="wait-preview">25</span> minutes
+          </div>
+          <button id="explore-chill-btn" class="btn btn-success">
+            <i class="fas fa-coffee"></i>
+            Explore Nearby Comfort Zones
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chill-Out Areas -->
+    <section id="chill-area">
+      <div class="content-card">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+          <i class="fas fa-map-marked-alt" style="font-size: 3rem; color: var(--primary-color);"></i>
+          <div>
+            <h1>Premium Chill-Out Zones</h1>
+            <p class="text-muted">Relax at these top-rated locations while we service your vehicle</p>
+          </div>
+        </div>
+        
+        <div class="chill-grid" id="chill-out-list"></div>
+      </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section id="wait-time-section">
+      <div class="content-card">
+        <div class="countdown-display">
+          <i class="fas fa-stopwatch" style="font-size: 2.5rem; color: var(--success-color); margin-bottom: 1rem;"></i>
+          <div class="countdown-timer" id="countdown-display">
+            00:25:00
+          </div>
+          <h3 style="color: var(--dark-light);">Service Progress</h3>
+        </div>
+        
+        <div id="chill-out-details" style="display: none;">
+          <div class="service-info">
+            <h4 id="chill-place-name" class="mb-2"></h4>
+            <p id="chill-place-address" class="text-muted mb-1"></p>
+            <div style="font-size: 0.9rem; color: var(--gray);">
+              ⭐ <span id="chill-rating">4.5</span> (248 reviews) • <span id="chill-distance">5 mins</span> away
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button id="start-chill-time" class="btn btn-primary">
+              <i class="fas fa-play-circle"></i> Start Timer
+            </button>
+            <button id="cancel-service" class="btn btn-danger">
+              <i class="fas fa-times-circle"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service Complete -->
+    <section id="service-done">
+      <div class="content-card">
+        <div class="status-icon complete">
+          <i class="fas fa-car-battery" style="font-size: 5rem;"></i>
+        </div>
+        <h1 style="font-size: 3rem;">Your Vehicle is Ready!</h1>
+        <p class="text-muted" style="font-size: 1.25rem;">Professional service completed with 100% satisfaction guarantee</p>
+        
+        <div style="text-align: center; margin: 3rem 0;">
+          <div class="service-info" style="max-width: 500px; margin: 0 auto 2rem;">
+            <div id="final-service-details"></div>
+          </div>
+          
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; max-width: 500px; margin: 0 auto;">
+            <button id="new-booking" class="btn btn-primary">
+              <i class="fas fa-plus-circle"></i> New Service
+            </button>
+            <button onclick="window.print()" class="btn btn-success">
+              <i class="fas fa-download"></i> Download Report
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    class ProfessionalCarServiceApp {
+      constructor() {
+        this.serviceCenters = {
+          racecourse: { name: 'Race Course Service Center', img: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=200&fit=crop&crop=center' },
+          rspuram: { name: 'RS Puram Premium Service', img: 'https://images.unsplash.com/photo-1558618048-6f4e6ca9af5e?w=400&h=200&fit=crop&crop=center' },
+          gandhipuram: { name: 'Gandhipuram Express', img: 'https://images.unsplash.com/photo-1583121274602-d9e800fa9518?w=400&h=200&fit=crop&crop=center' },
+          saravanampatti: { name: 'Saravanampatti Tech Hub', img: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=200&fit=crop&crop=center' }
+        };
+
+        this.chillAreas = [
+          {
+            name: "Cafe Coffee Day Lounge",
+            address: "Avinashi Road, RS Puram",
+            rating: 4.4,
+            distance: 5,
+            img: "https://images.unsplash.com/photo-1512568400610-3f3f73bed6ff?w=400&h=200&fit=crop",
+            icon: "fas fa-coffee"
+          },
+          {
+            name: "Amethyst - Artisan Cafe",
+            address: "Bharani Street, RS Puram",
+            rating: 4.7,
+            distance: 3,
+            img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=200&fit=crop",
+            icon: "fas fa-mug-hot"
+          },
+          {
+            name: "Race Course Walking Park",
+            address: "Race Course Road",
+            rating: 4.6,
+            distance: 2,
+            img: "https://images.unsplash.com/photo-1578916171728-46686eacfd0f?w=400&h=200&fit=crop",
+            icon: "fas fa-tree"
+          },
+          {
+            name: "The Store - Craft Brewery",
+            address: "Gandhipuram 3rd Street",
+            rating: 4.5,
+            distance: 6,
+            img: "https://images.unsplash.com/photo-1577968897966-f27ee13c3994?w=400&h=200&fit=crop",
+            icon: "fas fa-beer-mug-empty"
+          }
+        ];
+
+        this.totalWaitTime = 0;
+        this.remainingTime = 0;
+        this.timer = null;
+        this.serviceId = null;
+        this.currentChillSpot = null;
+        
+        this.init();
+      }
+
+      init() {
+        this.bindEvents();
+        this.requestNotificationPermission();
+      }
+
+      bindEvents() {
+        document.getElementById('book-button').addEventListener('click', () => this.handleBooking());
+        document.getElementById('explore-chill-btn').addEventListener('click', () => this.showChillAreas());
+        document.getElementById('start-chill-time').addEventListener('click', (e) => {
+          e.preventDefault();
+          this.startCountdown();
+        });
+        document.getElementById('cancel-service').addEventListener('click', () => this.cancelService());
+        document.getElementById('new-booking').addEventListener('click', () => this.resetApp());
+      }
+
+      requestNotificationPermission() {
+        if ('Notification' in window && Notification.permission === 'default') {
+          Notification.requestPermission();
+        }
+      }
+
+      handleBooking() {
+        const centerKey = document.getElementById('service-center').value;
+        const carModel = document.getElementById('car-model').value || 'Your Vehicle';
+        const serviceType = document.getElementById('service-type').value;
+        
+        this.serviceId = 'SVC' + Date.now().toString().slice(-6);
+        this.totalWaitTime = Math.floor(Math.random() * 35) + 15; // 15-50 minutes
+        this.remainingTime = this.totalWaitTime;
+        
+        const center = this.serviceCenters[centerKey];
+        
+        document.getElementById('confirmation-details').innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+              <div style="font-size: 0.9rem; color: var(--gray); margin-bottom: 0.5rem;">SERVICE ID</div>
+              <div class="fw-bold" style="font-size: 1.25rem;">${this.serviceId}</div>
+            </div>
+            <div>
+              <div style="font-size: 0.9rem; color: var(--gray); margin-bottom: 0.5rem;">LOCATION</div>
+              <div class="fw-bold">${center.name}</div>
+            </div>
+            <div>
+              <div style="font-size: 0.9rem; color: var(--gray); margin-bottom: 0.5rem;">VEHICLE</div>
+              <div class="fw-bold">${carModel}</div>
+            </div>
+            <div>
+              <div style="font-size: 0.9rem; color: var(--gray); margin-bottom: 0.5rem;">SERVICE</div>
+              <div class="fw-bold">${serviceType.toUpperCase()}</div>
+            </div>
+          </div>
+        `;
+        
+        document.getElementById('wait-preview').textContent = this.totalWaitTime;
+        document.getElementById('final-service-details').innerHTML = document.getElementById('confirmation-details').innerHTML;
+        
+        this.showSection('confirmation-section');
+      }
+
+      showChillAreas() {
+        const chillGrid = document.getElementById('chill-out-list');
+        chillGrid.innerHTML = '';
+        
+        this.chillAreas.forEach(area => {
+          const spot = document.createElement('div');
+          spot.className = 'chill-spot';
+          spot.innerHTML = `
+            <img src="${area.img}" alt="${area.name}" class="chill-spot-image" loading="lazy">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+              <i class="${area.icon}" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+              <h4 style="margin: 0;">${area.name}</h4>
+            </div>
+            <p style="margin-bottom: 1rem; color: var(--gray);">${area.address}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 1.1rem; font-weight: 600; color: var(--success-color);">
+                ⭐ ${area.rating}
+              </span>
+              <span style="font-size: 0.95rem; color: var(--gray);">
+                ${area.distance} min
+              </span>
+            </div>
+          `;
+          spot.addEventListener('click', () => this.selectChillSpot(area, spot));
+          chillGrid.appendChild(spot);
+        });
+        
+        this.showSection('chill-area');
+      }
+
+      selectChillSpot(area, element) {
+        document.querySelectorAll('.chill-spot').forEach(spot => spot.classList.remove('selected'));
+        element.classList.add('selected');
+        
+        this.currentChillSpot = area;
+        document.getElementById('chill-place-name').textContent = area.name;
+        document.getElementById('chill-place-address').textContent = area.address;
+        document.getElementById('chill-rating').textContent = area.rating;
+        document.getElementById('chill-distance').textContent = area.distance;
+        
+        document.getElementById('chill-out-details').style.display = 'block';
+        this.updateCountdownDisplay();
+        
+        this.showSection('wait-time-section');
+      }
+
+      startCountdown() {
+        if (this.timer) clearInterval(this.timer);
+        
+        this.updateCountdownDisplay();
+        this.timer = setInterval(() => {
+          this.remainingTime--;
+          this.updateCountdownDisplay();
+          
+          if (this.remainingTime <= 0) {
+            clearInterval(this.timer);
+            this.serviceComplete();
+          }
+        }, 1000);
+      }
+
+      updateCountdownDisplay() {
+        const hours = Math.floor(this.remainingTime / 3600);
+        const minutes = Math.floor((this.remainingTime % 3600) / 60);
+        const seconds = this.remainingTime % 60;
+        
+        document.getElementById('countdown-display').textContent = 
+          `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
+
+      serviceComplete() {
+        this.showSection('service-done');
+        
+        if (Notification.permission === 'granted') {
+          new Notification('✅ Service Complete!', {
+            body: `Your vehicle ${document.getElementById('car-model').value || 'is'} ready at ${this.serviceCenters[document.getElementById('service-center').value].name}`,
+            icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI5IDM2TDIxIDI4bDUgNUwxMyAxOVYxOGgxOFYxOUwyOSAzNlY0NFY0MFYyOUgyOVYxOUgyMFYxMkgyOFYxMFYxMkwzMiAxMFYxMkwzOSAxMFYyMEgyOVYyOVoiIGZpbGw9IiMxMEI5ODEiLz4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiNGRkZGRkYiLz4KPC9zdmc+'
+          });
+        }
+      }
+
+      cancelService() {
+        if (confirm('Are you sure you want to cancel this service booking?')) {
+          this.resetApp();
+        }
+      }
+
+      resetApp() {
+        if (this.timer) clearInterval(this.timer);
+        this.showSection('booking-section');
+        document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+        document.getElementById('chill-out-details').style.display = 'none';
+        document.getElementById('car-model').value = '';
+      }
+
+      showSection(sectionId) {
+        document.querySelectorAll('section').forEach(section => {
+          section.classList.remove('active-section');
+        });
+        document.getElementById(sectionId).classList.add('active-section');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new ProfessionalCarServiceApp();
+    });
+  </script>
+</body>
+</html>
